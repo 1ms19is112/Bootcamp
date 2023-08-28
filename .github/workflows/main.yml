@@ -1,11 +1,22 @@
-name: Build and Test Java Spring Boot Application
-on: push
+name: Build and deploy JAR app to Azure Web App - spring-azure-demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
 jobs:
- build:
- steps:
- - run: mvn clean package
- - run: echo "BUILD SUCCESS"
-test:
- steps:
- - run: mvn test
- - run: echo "TEST SUCCESS"
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Java version
+      uses: actions/setup-java@v1
+      with:
+        java-version: '8'
+
+    - name: Build with Maven
+      run: mvn clean install
